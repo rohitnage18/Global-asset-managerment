@@ -3,6 +3,11 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
 
 const AUTH_STORAGE_KEY = "xenvolt-auth-session"
+const COMMON_DEMO_PASSWORD = "1234"
+const MASTER_LOGIN = {
+  email: "admin@xenvolt.com",
+  password: "admin123",
+}
 
 export type StationManager = {
   id: string
@@ -75,8 +80,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = (email: string, password: string) => {
+    const normalizedEmail = email.toLowerCase().trim()
+    const normalizedPassword = password.trim()
+
+    if (normalizedEmail === MASTER_LOGIN.email && normalizedPassword === MASTER_LOGIN.password) {
+      const session: AuthSession = {
+        id: "SM-ADMIN-001",
+        name: "Xenvolt Admin",
+        email: MASTER_LOGIN.email,
+        station: "All Stations",
+        role: "Admin",
+      }
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session))
+      setUser(session)
+      return { ok: true }
+    }
+
     const match = STATION_MANAGERS.find(
-      (manager) => manager.email.toLowerCase() === email.toLowerCase().trim() && manager.password === password,
+      (manager) =>
+        manager.email.toLowerCase() === normalizedEmail &&
+        (manager.password.toLowerCase().trim() === normalizedPassword.toLowerCase() ||
+          normalizedPassword === COMMON_DEMO_PASSWORD),
     )
 
     if (!match) {

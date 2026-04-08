@@ -104,9 +104,9 @@ export function Sidebar({ isMobileOpen = false, onMobileClose }: SidebarProps) {
             <Image
               src="/images/xenvolt-logo.png"
               alt="Xenvolt"
-              width={260}
-              height={84}
-              className="h-16 w-auto max-w-full object-contain transition-opacity group-hover:opacity-90"
+              width={320}
+              height={96}
+              className="h-16 w-auto max-w-[240px] object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               priority
             />
             <span className="sr-only">Go to Commissioning</span>

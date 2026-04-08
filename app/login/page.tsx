@@ -53,14 +53,21 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat relative"
       style={{ backgroundImage: "url('/images/login-bg.png')" }}
     >
-      <div className="absolute inset-0 bg-black/45" />
-      <Card className="w-full max-w-md shadow-xl border-white/20 bg-white/95 backdrop-blur-sm relative z-10">
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-950/55 via-slate-900/45 to-amber-900/40" />
+      <Card className="w-full max-w-md shadow-2xl border border-cyan-100/70 bg-white relative z-10">
         <CardHeader className="space-y-3">
           <div className="flex justify-center">
-            <Image src="/images/xenvolt-logo.png" alt="Xenvolt" width={300} height={90} className="h-16 w-auto" priority />
+            <Image
+              src="/images/xenvolt-logo.png"
+              alt="Xenvolt"
+              width={320}
+              height={92}
+              className="h-16 w-auto"
+              priority
+            />
           </div>
-          <CardTitle className="text-center text-2xl">Station Manager Login</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-center text-2xl text-slate-900">Station Manager Login</CardTitle>
+          <CardDescription className="text-center text-slate-600">
             Login to update daily operations, fuel, and service records.
           </CardDescription>
         </CardHeader>
@@ -88,21 +95,26 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full bg-cyan-600 text-white hover:bg-cyan-700 shadow-sm"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
-          <div className="mt-6 rounded-md border bg-muted/40 p-3">
-            <p className="text-xs font-medium text-muted-foreground mb-2">Demo station manager accounts:</p>
-            <ul className="text-xs space-y-1 text-muted-foreground">
+          <div className="mt-6 rounded-md border border-slate-200 bg-slate-50 p-3">
+            <p className="text-xs font-medium text-slate-700 mb-2">Demo station manager accounts:</p>
+            <ul className="text-xs space-y-1 text-slate-600">
               {managers.map((manager) => (
                 <li key={manager.id}>
                   {manager.station}: {manager.email}
                 </li>
               ))}
             </ul>
-            <p className="text-xs text-muted-foreground mt-2">Use the station password format: `Station@123`</p>
+            <p className="text-xs text-slate-600 mt-2">Common demo password for all above emails: 1234</p>
+            <p className="text-xs text-slate-600 mt-1">Master login: admin@xenvolt.com / admin123</p>
           </div>
         </CardContent>
       </Card>
