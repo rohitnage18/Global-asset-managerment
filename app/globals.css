@@ -125,6 +125,15 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
+  /* Hide native empty date placeholder text like dd/mm/yyyy */
+  input[type="date"][data-has-value="false"]::-webkit-datetime-edit {
+    color: transparent;
+  }
+
+  input[type="date"][data-has-value="false"]:focus::-webkit-datetime-edit {
+    color: inherit;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

@@ -55,6 +55,24 @@ export function DailyRunning() {
       closingHours: 485,
       usedHours: 5,
     },
+    {
+      id: "4",
+      gseNumber: "GFHS/PNQ/GPU/01",
+      station: "Pune",
+      date: "2025-01-14",
+      openingHours: 12.2,
+      closingHours: 13.6,
+      usedHours: 1.4,
+    },
+    {
+      id: "5",
+      gseNumber: "GFHS/VTZ/ACU/01",
+      station: "Visakhapatnam",
+      date: "2025-01-14",
+      openingHours: 22.1,
+      closingHours: 23.4,
+      usedHours: 1.3,
+    },
   ])
   const [stationFilter, setStationFilter] = useState<string>("all")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
@@ -265,33 +283,21 @@ export function DailyRunning() {
             </SelectContent>
           </Select>
 
-          <div className="relative w-full sm:w-40">
-            {!dateFrom && (
-              <div className="absolute inset-0 flex items-center px-3 pointer-events-none text-sm text-muted-foreground">
-                Date from
-              </div>
-            )}
-            <Input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="w-full h-9 text-sm border-border/50"
-            />
-          </div>
+          <Input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="w-full sm:w-40 h-9 text-sm border-border/50"
+            aria-label="Date from"
+          />
 
-          <div className="relative w-full sm:w-40">
-            {!dateTo && (
-              <div className="absolute inset-0 flex items-center px-3 pointer-events-none text-sm text-muted-foreground">
-                Date to
-              </div>
-            )}
-            <Input
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="w-full h-9 text-sm border-border/50"
-            />
-          </div>
+          <Input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="w-full sm:w-40 h-9 text-sm border-border/50"
+            aria-label="Date to"
+          />
 
           <Input
             placeholder="Search"

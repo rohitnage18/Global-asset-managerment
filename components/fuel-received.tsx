@@ -148,22 +148,20 @@ export function FuelReceived() {
           </Select>
 
           <div className="flex gap-2">
-            <div className="relative w-[150px]">
-              {!dateFrom && (
-                <div className="absolute inset-0 flex items-center px-3 pointer-events-none text-sm text-muted-foreground">
-                  Date from
-                </div>
-              )}
-              <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="w-full" />
-            </div>
-            <div className="relative w-[150px]">
-              {!dateTo && (
-                <div className="absolute inset-0 flex items-center px-3 pointer-events-none text-sm text-muted-foreground">
-                  Date to
-                </div>
-              )}
-              <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="w-full" />
-            </div>
+            <Input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="w-[150px]"
+              aria-label="Date from"
+            />
+            <Input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="w-[150px]"
+              aria-label="Date to"
+            />
           </div>
 
           <div className="relative flex-1 min-w-[200px]">

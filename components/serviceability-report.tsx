@@ -61,6 +61,28 @@ export function ServiceabilityReport() {
       groundingReason: "",
       remarks: "",
     },
+    {
+      id: "3",
+      date: "2025-02-01",
+      station: "Pune",
+      equipmentId: "GFHS/PNQ/GPU/01",
+      equipmentName: "GROUND POWER UNIT GPU - AC/DC",
+      status: "SERVICEBLE",
+      category: "GPU",
+      groundingReason: "",
+      remarks: "",
+    },
+    {
+      id: "4",
+      date: "2025-02-01",
+      station: "Visakhapatnam",
+      equipmentId: "GFHS/VTZ/ACU/01",
+      equipmentName: "AIR CONDITIONING UNIT ACU",
+      status: "SERVICEBLE",
+      category: "ACU",
+      groundingReason: "",
+      remarks: "",
+    },
   ])
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
