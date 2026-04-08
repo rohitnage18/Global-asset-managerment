@@ -283,21 +283,27 @@ export function DailyRunning() {
             </SelectContent>
           </Select>
 
-          <Input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            className="w-full sm:w-40 h-9 text-sm border-border/50"
-            aria-label="Date from"
-          />
+          <div className="w-full sm:w-40">
+            <p className="text-xs text-muted-foreground mb-1">Date from</p>
+            <Input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="w-full h-9 text-sm border-border/50"
+              aria-label="Date from"
+            />
+          </div>
 
-          <Input
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className="w-full sm:w-40 h-9 text-sm border-border/50"
-            aria-label="Date to"
-          />
+          <div className="w-full sm:w-40">
+            <p className="text-xs text-muted-foreground mb-1">Date to</p>
+            <Input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="w-full h-9 text-sm border-border/50"
+              aria-label="Date to"
+            />
+          </div>
 
           <Input
             placeholder="Search"

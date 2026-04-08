@@ -250,20 +250,26 @@ export function FuelConsumption() {
           </Select>
 
           <div className="flex gap-2">
-            <Input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="w-[150px]"
-              aria-label="Date from"
-            />
-            <Input
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="w-[150px]"
-              aria-label="Date to"
-            />
+            <div className="w-[150px]">
+              <p className="text-xs text-muted-foreground mb-1">Date from</p>
+              <Input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="w-full"
+                aria-label="Date from"
+              />
+            </div>
+            <div className="w-[150px]">
+              <p className="text-xs text-muted-foreground mb-1">Date to</p>
+              <Input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="w-full"
+                aria-label="Date to"
+              />
+            </div>
           </div>
 
           <div className="relative flex-1 min-w-[200px]">
