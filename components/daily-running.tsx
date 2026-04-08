@@ -283,8 +283,12 @@ export function DailyRunning() {
             </SelectContent>
           </Select>
 
-          <div className="w-full sm:w-40">
-            <p className="text-xs text-muted-foreground mb-1">Date from</p>
+          <div className="relative w-full sm:w-40">
+            {!dateFrom && (
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                Date from
+              </span>
+            )}
             <Input
               type="date"
               value={dateFrom}
@@ -294,8 +298,12 @@ export function DailyRunning() {
             />
           </div>
 
-          <div className="w-full sm:w-40">
-            <p className="text-xs text-muted-foreground mb-1">Date to</p>
+          <div className="relative w-full sm:w-40">
+            {!dateTo && (
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                Date to
+              </span>
+            )}
             <Input
               type="date"
               value={dateTo}

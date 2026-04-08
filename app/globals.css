@@ -132,11 +132,6 @@
     text-shadow: none;
   }
 
-  input[type="date"][data-has-value="false"]:focus::-webkit-datetime-edit {
-    color: inherit;
-    -webkit-text-fill-color: currentColor;
-  }
-
   input[type="date"][data-has-value="false"]::-webkit-datetime-edit-fields-wrapper {
     color: transparent;
     -webkit-text-fill-color: transparent;

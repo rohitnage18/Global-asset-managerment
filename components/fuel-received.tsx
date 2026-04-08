@@ -148,8 +148,12 @@ export function FuelReceived() {
           </Select>
 
           <div className="flex gap-2">
-            <div className="w-[150px]">
-              <p className="text-xs text-muted-foreground mb-1">Date from</p>
+            <div className="relative w-[150px]">
+              {!dateFrom && (
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                  Date from
+                </span>
+              )}
               <Input
                 type="date"
                 value={dateFrom}
@@ -158,8 +162,12 @@ export function FuelReceived() {
                 aria-label="Date from"
               />
             </div>
-            <div className="w-[150px]">
-              <p className="text-xs text-muted-foreground mb-1">Date to</p>
+            <div className="relative w-[150px]">
+              {!dateTo && (
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                  Date to
+                </span>
+              )}
               <Input
                 type="date"
                 value={dateTo}
