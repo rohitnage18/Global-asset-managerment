@@ -1,2 +1,1 @@
-# Global-asset-managerment
-https://xenvoltai-my.sharepoint.com/personal/rohit_nage_xenvolt_ai/Documents/Microsoft%20Teams%20Chat%20Files/Global%20asset%20management%20doc.pdf
+The GFHS Aviation Ground Support Equipment (GSE) Management System is a comprehensive, web-based platform designed to digitize and streamline the management of ground support equipment across multiple aviation stations. 
