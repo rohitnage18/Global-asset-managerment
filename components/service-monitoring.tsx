@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Download, FileText, Plus } from "lucide-react"
 import { exportPDF as exportRowsToPDF } from "@/components/shared/export-utils"
+import { useAuth } from "@/contexts/auth-context"
 
 type ServiceEntry = {
   id: string
@@ -55,7 +56,10 @@ function calculateDaysDifference(currentDate: string, dueDate: string): number {
 
 export function ServiceMonitoring() {
   const { equipment } = useEquipment()
+  const { user } = useAuth()
   const { toast } = useToast()
+  const normalizeStation = (value: string) => value.trim().toLowerCase()
+  const isAdminUser = user?.station === "All Stations"
 
   const [serviceEntries, setServiceEntries] = useState<ServiceEntry[]>([
     {
@@ -121,6 +125,10 @@ export function ServiceMonitoring() {
   ])
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const scopedServiceEntries =
+    !user || isAdminUser
+      ? serviceEntries
+      : serviceEntries.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
   const [newEntry, setNewEntry] = useState({
     gseNumber: "",
     serviceDone: "",
@@ -250,11 +258,11 @@ export function ServiceMonitoring() {
   }
 
   const exportToPDF = () => {
-    if (serviceEntries.length === 0) {
+    if (scopedServiceEntries.length === 0) {
       toast({ title: "No data", description: "Add service entries before exporting PDF.", variant: "destructive" })
       return
     }
-    exportRowsToPDF(`service-monitoring-${new Date().toISOString().slice(0, 10)}`, serviceEntries)
+    exportRowsToPDF(`service-monitoring-${new Date().toISOString().slice(0, 10)}`, scopedServiceEntries)
     toast({ title: "Exported", description: "Service monitoring data exported to PDF" })
   }
 
@@ -506,7 +514,7 @@ export function ServiceMonitoring() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {serviceEntries.map((entry) => (
+              {scopedServiceEntries.map((entry) => (
                 <TableRow
                   key={entry.id}
                   className={`${getRowColor(entry.gseNumber)} hover:opacity-80 border-b border-border`}

@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import { useAuth } from "@/contexts/auth-context"
 
 export interface Equipment {
   slNo: string
@@ -77,6 +78,7 @@ const sampleEquipment: Equipment[] = [
 ]
 
 export function EquipmentProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth()
   const [equipment, setEquipment] = useState<Equipment[]>([])
 
   // Load from localStorage on mount
@@ -101,6 +103,13 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     }
   }, [equipment])
 
+  const normalizeStation = (value: string) => value.trim().toLowerCase()
+  const isAdminUser = user?.station === "All Stations"
+  const scopedEquipment =
+    !user || isAdminUser
+      ? equipment
+      : equipment.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
+
   const addEquipment = (eq: Equipment) => {
     setEquipment((prev) => [...prev, eq])
   }
@@ -114,13 +123,13 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   }
 
   const getEquipmentByNumber = (gseNumber: string) => {
-    return equipment.find((e) => e.gseNumber === gseNumber)
+    return scopedEquipment.find((e) => e.gseNumber === gseNumber)
   }
 
   return (
     <EquipmentContext.Provider
       value={{
-        equipment,
+        equipment: scopedEquipment,
         addEquipment,
         deleteEquipment,
         updateEquipment,

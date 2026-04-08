@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label"
 import { Plus } from "lucide-react"
 import { useEquipment } from "@/contexts/equipment-context" // Fixed import path
+import { useAuth } from "@/contexts/auth-context"
 
 type DailyRunEntry = {
   id: string
@@ -23,6 +24,9 @@ type DailyRunEntry = {
 
 export function DailyRunning() {
   const { equipment } = useEquipment() // Declare the useEquipment hook
+  const { user } = useAuth()
+  const normalizeStation = (value: string) => value.trim().toLowerCase()
+  const isAdminUser = user?.station === "All Stations"
   const [dailyRuns, setDailyRuns] = useState<DailyRunEntry[]>([
     {
       id: "1",
@@ -67,11 +71,16 @@ export function DailyRunning() {
     closingHours: "",
   })
 
+  const scopedDailyRuns =
+    !user || isAdminUser
+      ? dailyRuns
+      : dailyRuns.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
+
   const uniqueStations = Array.from(new Set(equipment.map((e) => e.station)))
   const uniqueCategories = Array.from(new Set(equipment.map((e) => e.gseCategory).filter(Boolean)))
 
   const filteredRows = useMemo(() => {
-    let filtered = dailyRuns
+    let filtered = scopedDailyRuns
 
     if (stationFilter !== "all") {
       filtered = filtered.filter((r) => r.station === stationFilter)
@@ -99,7 +108,7 @@ export function DailyRunning() {
     }
 
     return filtered
-  }, [dailyRuns, stationFilter, categoryFilter, dateFrom, dateTo, searchTerm, equipment])
+  }, [scopedDailyRuns, stationFilter, categoryFilter, dateFrom, dateTo, searchTerm, equipment])
 
   const getLastClosingHours = (gseNumber: string): number => {
     console.log("[v0] Getting last closing hours for:", gseNumber)

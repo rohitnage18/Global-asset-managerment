@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, type ReactNode } from "react"
+import { useAuth } from "@/contexts/auth-context"
 
 export interface FuelReceivedEntry {
   id: string
@@ -49,6 +50,7 @@ interface FuelContextType {
 const FuelContext = createContext<FuelContextType | undefined>(undefined)
 
 export function FuelProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth()
   const [receivedEntries, setReceivedEntries] = useState<FuelReceivedEntry[]>([
     {
       id: "1",
@@ -100,40 +102,55 @@ export function FuelProvider({ children }: { children: ReactNode }) {
     },
   ])
 
+  const normalizeStation = (value: string) => value.trim().toLowerCase()
+  const isAdminUser = user?.station === "All Stations"
+  const scopedReceivedEntries =
+    !user || isAdminUser
+      ? receivedEntries
+      : receivedEntries.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
+  const scopedConsumptionEntries =
+    !user || isAdminUser
+      ? consumptionEntries
+      : consumptionEntries.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
+
   const addReceivedEntry = (entry: Omit<FuelReceivedEntry, "id">) => {
+    const station = !user || isAdminUser ? entry.station : user.station
     const newEntry = {
       ...entry,
+      station,
       id: Date.now().toString(),
     }
     setReceivedEntries((prev) => [...prev, newEntry])
   }
 
   const addConsumptionEntry = (entry: Omit<FuelConsumptionEntry, "id">) => {
+    const station = !user || isAdminUser ? entry.station : user.station
     const newEntry = {
       ...entry,
+      station,
       id: Date.now().toString(),
     }
     setConsumptionEntries((prev) => [...prev, newEntry])
   }
 
   const getInstockPetrol = () => {
-    const totalReceived = receivedEntries.reduce((sum, entry) => sum + entry.receivedPetrol, 0)
-    const totalConsumed = consumptionEntries.reduce((sum, entry) => sum + entry.topUpPetrol, 0)
+    const totalReceived = scopedReceivedEntries.reduce((sum, entry) => sum + entry.receivedPetrol, 0)
+    const totalConsumed = scopedConsumptionEntries.reduce((sum, entry) => sum + entry.topUpPetrol, 0)
     return totalReceived - totalConsumed
   }
 
   const getInstockDiesel = () => {
-    const totalReceived = receivedEntries.reduce((sum, entry) => sum + entry.receivedDiesel, 0)
-    const totalConsumed = consumptionEntries.reduce((sum, entry) => sum + entry.topUpDiesel, 0)
+    const totalReceived = scopedReceivedEntries.reduce((sum, entry) => sum + entry.receivedDiesel, 0)
+    const totalConsumed = scopedConsumptionEntries.reduce((sum, entry) => sum + entry.topUpDiesel, 0)
     return totalReceived - totalConsumed
   }
 
   return (
     <FuelContext.Provider
       value={{
-        receivedEntries,
+        receivedEntries: scopedReceivedEntries,
         addReceivedEntry,
-        consumptionEntries,
+        consumptionEntries: scopedConsumptionEntries,
         addConsumptionEntry,
         getInstockPetrol,
         getInstockDiesel,

@@ -18,6 +18,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/contexts/auth-context"
 
 type ServiceabilityEntry = {
   id: string
@@ -33,7 +34,10 @@ type ServiceabilityEntry = {
 
 export function ServiceabilityReport() {
   const { equipment } = useEquipment()
+  const { user } = useAuth()
   const { toast } = useToast()
+  const normalizeStation = (value: string) => value.trim().toLowerCase()
+  const isAdminUser = user?.station === "All Stations"
   const [entries, setEntries] = useState<ServiceabilityEntry[]>([
     {
       id: "1",
@@ -67,6 +71,11 @@ export function ServiceabilityReport() {
     groundingReason: "",
     remarks: "",
   })
+
+  const scopedEntries =
+    !user || isAdminUser
+      ? entries
+      : entries.filter((entry) => normalizeStation(entry.station) === normalizeStation(user.station))
 
   const selectedEquipment = equipment.find((eq) => eq.gseNumber === newEntry.equipmentId)
 
@@ -120,7 +129,7 @@ export function ServiceabilityReport() {
       "Grounding reason",
       "Remarks",
     ]
-    const rows = entries.map((entry, index) => [
+    const rows = scopedEntries.map((entry, index) => [
       index + 1,
       entry.date,
       entry.station,
@@ -281,7 +290,7 @@ export function ServiceabilityReport() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {entries.map((entry, index) => (
+              {scopedEntries.map((entry, index) => (
                 <TableRow key={entry.id} className="hover:bg-muted/20">
                   <TableCell className="text-center border-r border-border">{index + 1}</TableCell>
                   <TableCell className="text-center border-r border-border">{entry.date}</TableCell>
