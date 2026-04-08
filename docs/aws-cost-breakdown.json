@@ -1,0 +1,75 @@
+{
+  "deployment_options": {
+    "basic": {
+      "monthly_cost": 160,
+      "services": {
+        "amplify_hosting": 60,
+        "rds_postgresql_single_az": 30,
+        "s3_storage": 8,
+        "ses_email": 10,
+        "cloudwatch": 15,
+        "cognito": 5,
+        "backup": 12
+      },
+      "suitable_for": "Development/Testing with 24 users",
+      "availability": "Single region, no redundancy"
+    },
+    "production": {
+      "monthly_cost": 250,
+      "services": {
+        "amplify_hosting": 75,
+        "rds_postgresql_multi_az": 70,
+        "s3_storage": 10,
+        "ses_email": 15,
+        "cloudwatch": 20,
+        "cognito": 10,
+        "backup": 15,
+        "waf": 20,
+        "route53": 5,
+        "certificate_manager": 0
+      },
+      "suitable_for": "Production with 24 users, high availability",
+      "availability": "Multi-AZ, automatic failover"
+    },
+    "enterprise": {
+      "monthly_cost": 500,
+      "services": {
+        "ec2_load_balancer_multi_region": 180,
+        "aurora_serverless_multi_region": 120,
+        "s3_cross_region_replication": 20,
+        "ses_email": 20,
+        "cloudwatch_xray": 40,
+        "cognito_advanced": 15,
+        "backup_disaster_recovery": 30,
+        "waf_shield": 40,
+        "route53_health_checks": 10,
+        "cloudfront_cdn": 25
+      },
+      "suitable_for": "Mission-critical operations, multi-region",
+      "availability": "99.99% uptime, disaster recovery"
+    }
+  },
+  "scaling_projections": {
+    "50_users": {
+      "monthly_cost": 280,
+      "notes": "Upgrade to db.t3.small, increase Amplify resources"
+    },
+    "100_users": {
+      "monthly_cost": 450,
+      "notes": "Upgrade to db.t3.medium, add read replicas"
+    },
+    "500_users": {
+      "monthly_cost": 1200,
+      "notes": "Aurora Serverless, multi-region, CDN required"
+    }
+  },
+  "cost_optimization_tips": [
+    "Use Reserved Instances for RDS (save 30-40%)",
+    "Enable S3 Intelligent-Tiering for old files",
+    "Use CloudFront for static assets",
+    "Implement database connection pooling",
+    "Archive old data to S3 Glacier",
+    "Use Spot Instances for non-critical workloads",
+    "Enable AWS Cost Explorer and set budgets"
+  ]
+}
